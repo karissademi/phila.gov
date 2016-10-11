@@ -215,9 +215,10 @@ function phila_open_graph() {
     if ( empty($hero_header_image) ) {
       $parent_id = get_post_ancestors( $post->ID );
 
-      $hero_header_image = rwmb_meta( 'phila_hero_header_image', $args = array('type' => 'file_input'), $post_id = $parent_id[0]);
-
+      if ( isset($parent_id[0]) ) {
+        $hero_header_image = rwmb_meta( 'phila_hero_header_image', $args = array('type' => 'file_input'), $post_id = $parent_id[0]);
       }
+    }
       $img_src = $hero_header_image;
     }elseif( has_post_thumbnail() ){
 
@@ -1391,10 +1392,6 @@ function phila_get_item_meta_desc( $bloginfo = true ){
 
   //This order matters. If $canonical_meta_desc is found first, it should be used.
   array_push($meta_desc, $canonical_meta_desc, $page_desc, $document_desc, $news_desc, $post_desc, $dept_desc, $event_desc );
-
-  if( is_post_type_archive( 'service_page' ) ) {
-    return 'A directory of City service information from A to Z.';
-  }
 
   if( is_archive() || is_search() || is_home() ) {
     if ($bloginfo) {
